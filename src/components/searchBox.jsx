@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux"
-import {filterContact} from '../redux/filtersSlice'
+import {filterContact, selectNameFilter} from '../redux/filtersSlice'
 
 export default function SearchBox() {
     const dispatch = useDispatch()
-    const filter  = useSelector((state) => state.filter.items )
+    const filter  = useSelector(selectNameFilter)
     const handleChange = (e) => {
         dispatch(filterContact(e.target.value))
     }

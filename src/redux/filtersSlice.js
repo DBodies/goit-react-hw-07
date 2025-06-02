@@ -8,9 +8,12 @@ const slice = createSlice({
     },
     reducers: {
         filterContact: (state, action) => {
-            state.items = action.payload
+            state.name = action.payload
         }
     }
 })
+
+export const selectNameFilter = (state) => state.filter.name;
+
 export const { filterContact } = slice.actions
 export default slice.reducer

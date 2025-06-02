@@ -6,28 +6,50 @@ import styles from './components/stylesForAllComponents.module.css'
 import { useDispatch } from 'react-redux'
 import { returnContacts } from './redux/contactsSlice'
 import { useSelector } from 'react-redux'
-import { filterContact} from './redux/filtersSlice'
+import { filterContact } from './redux/filtersSlice'
+import { fetchContacts } from './redux/contactsOps'
+import toast, { Toaster } from 'react-hot-toast'
+import { selectContacts, selectLoading,selectError } from './redux/contactsSlice'
 
 
 export default function App() {
   const dispatch = useDispatch()
+
   const handleReset = () => {
     dispatch(returnContacts())
   }
-  const filter = useSelector((state) => state.filter.items);
-  const handleFilterChange = (value) => {
-    dispatch(filterContact(value));
-  };
 
+
+  useEffect(() => {
+    dispatch(fetchContacts()).unwrap()
+      .then(() => {
+        toast.success("Loading page....")
+      })
+      .catch(() => {
+        toast.error("Page doesn`t working")
+      })
+  }, [dispatch])
+
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
+  
+  
   return (
     <div className={styles.container}>
       <h1>Phonebook</h1>
-      <ContactForm />
-      <SearchBox filter={filter} onFilter={handleFilterChange} />
-      <ContactList/>
-      <button onClick={handleReset}>return Contacts</button>
+      <Toaster/>
+      {error ? (
+        <strong>Oops, page doesn`t working</strong>
+      ) : (<ContactForm />
+          
+      )}
+          {loading && <strong>Loading list...</strong>}
+          <SearchBox/>
+            {!loading && <ContactList />}
+          <button onClick={handleReset}>return Contacts</button>
     </div>
   )
 }
 
 
+ 

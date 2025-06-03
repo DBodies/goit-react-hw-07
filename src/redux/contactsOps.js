@@ -28,11 +28,4 @@ export const deleteContact = createAsyncThunk("contacts/deleteContact",
         return res.data
 })
 
-// export const returnContacts = createAsyncThunk("contacts/returnContacts",
-//     async () => {
-//         console.log("Contacts returned");
-//         const res = await axios.get('/contacts')
-//         return res.data
-//     }
-// )
 
